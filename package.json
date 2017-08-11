@@ -1,9 +1,9 @@
 {
-  "name": "slate",
+  "name": "nomad-slate",
   "description": "A completely customizable framework for building rich text editors.",
   "version": "0.21.2",
   "license": "MIT",
-  "repository": "git://github.com/ianstormtaylor/slate.git",
+  "repository": "git://github.com/dxtr026/slate.git",
   "main": "./lib/index.js",
   "dependencies": {
     "debug": "^2.3.2",
@@ -101,6 +101,7 @@
     "gh-pages": "npm run build && npm run examples && gh-pages --dist ./examples",
     "lint": "eslint --ignore-pattern 'build.dev.js' --ignore-pattern 'build.prod.js' '{examples,src}/**/*.js'",
     "open": "open http://localhost:8080/dev.html",
+    "prepublish": "npm run build",
     "postpublish": "npm run gh-pages",
     "release": "np",
     "release:next": "np --tag=next",
