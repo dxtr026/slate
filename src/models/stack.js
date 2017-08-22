@@ -101,7 +101,8 @@ class Stack extends new Record(DEFAULTS) {
     const plugins = this.plugins.slice().reverse()
     let children
 
-    for (const plugin of plugins) {
+    for (let i = 0; i < plugins.length; i++) {
+      const plugin = plugins[i]
       if (!plugin.render) continue
       children = plugin.render(props, state, editor)
       props.children = children
@@ -122,7 +123,8 @@ class Stack extends new Record(DEFAULTS) {
     debug('renderPortal')
     const portals = []
 
-    for (const plugin of this.plugins) {
+    for (let i = 0; i < this.plugins.length; i++) {
+      const plugin = this.plugins[i]
       if (!plugin.renderPortal) continue
       const portal = plugin.renderPortal(state, editor)
       if (portal == null) continue
@@ -143,11 +145,13 @@ class Stack extends new Record(DEFAULTS) {
  * @return {State|Null}
  */
 
-for (const method of EVENT_HANDLER_METHODS) {
+for (let i = 0; i < EVENT_HANDLER_METHODS.length; i++) {
+  const method = EVENT_HANDLER_METHODS[i]
   Stack.prototype[method] = function (state, editor, ...args) {
     debug(method)
 
-    for (const plugin of this.plugins) {
+    for (let k = 0; k < this.plugins.length; k++) {
+      const plugin = this.plugins[k]
       if (!plugin[method]) continue
       const next = plugin[method](...args, state, editor)
       if (next == null) continue
@@ -168,7 +172,8 @@ for (const method of EVENT_HANDLER_METHODS) {
  * @return {State|Null}
  */
 
-for (const method of STATE_ACCUMULATOR_METHODS) {
+for (let i = 0; i < STATE_ACCUMULATOR_METHODS.length; i++) {
+  const method = STATE_ACCUMULATOR_METHODS[i]
   Stack.prototype[method] = function (state, editor, ...args) {
     debug(method)
 
@@ -176,7 +181,8 @@ for (const method of STATE_ACCUMULATOR_METHODS) {
       state = this.onBeforeChange(state, editor)
     }
 
-    for (const plugin of this.plugins) {
+    for (let k = 0; k < this.plugins.length; k++) {
+      const plugin = this.plugins[k]
       if (!plugin[method]) continue
       const next = plugin[method](...args, state, editor)
       if (next == null) continue
@@ -209,7 +215,8 @@ function assertState(value) {
 function resolveSchema(plugins) {
   let rules = []
 
-  for (const plugin of plugins) {
+  for (let i = 0; i < plugins.length; i++) {
+    const plugin = plugins[i]
     if (plugin.schema == null) continue
     const schema = Schema.create(plugin.schema)
     rules = rules.concat(schema.rules)
