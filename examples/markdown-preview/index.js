@@ -1,5 +1,8 @@
 
-import { Editor, Mark, Plain } from '../..'
+import Plain from 'slate-plain-serializer'
+import { Editor } from 'slate-react'
+import { Mark } from 'slate'
+
 import Prism from 'prismjs'
 import React from 'react'
 
@@ -140,10 +143,10 @@ class MarkdownPreview extends React.Component {
   /**
    * On change.
    *
-   * @param {State} state
+   * @param {Change} change
    */
 
-  onChange = (state) => {
+  onChange = ({ state }) => {
     this.setState({ state })
   }
 

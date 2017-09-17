@@ -6,10 +6,13 @@ Want to contribute to Slate? That would be awesome!
 - [Reporting Bugs](#reporting-bugs)
 - [Asking Questions](#asking-questions)
 - [Submitting Pull Requests](#submitting-pull-requests)
-- [Running Tests](#running-tests)
 - [Running Examples](#running-examples)
+- [Running Tests](#running-tests)
+- [Running Benchmarks](#running-benchmarks)
 - [Adding Browser Support](#adding-browser-support)
 - [Testing Input Methods](#testing-input-methods)
+- [Debugging Slate Methods](#debugging-slate-methods)
+- [Publishing Releases](#publishing-releases)
 
 
 ## Reporting Bugs
@@ -18,13 +21,13 @@ If you run into any weird behavior while using Slate, feel free to open a new is
 
 Any issue you open must include:
 
-- A [JSFiddle](https://jsfiddle.net/2zokvrvt/7/) that reproduces the bug with a minimal setup.
+- A [JSFiddle](https://jsfiddle.net/2zokvrvt/179/) that reproduces the bug with a minimal setup.
 - A GIF showing the issue in action. (Using something like [RecordIt](http://recordit.co/).)
 - A clear explanation of what the issue is.
 
-Here's a [JSFiddle template for Slate](https://jsfiddle.net/2zokvrvt/7/) to get you started:
+Here's a [JSFiddle template for Slate](https://jsfiddle.net/2zokvrvt/179/) to get you started:
 
-[![](./docs/images/jsfiddle.png)](https://jsfiddle.net/2zokvrvt/7/)
+[![](./docs/images/jsfiddle.png)](https://jsfiddle.net/2zokvrvt/179/)
 
 
 ## Asking Questions
@@ -43,32 +46,56 @@ All pull requests are super welcomed and greatly appreciated! Easy issues are ma
 Please include tests and docs with every pull request!
 
 
-## Running Tests
-
-To run the examples, you need to have the Slate repository cloned to your computer. After that, you need to `cd` into the directory where you cloned it, and install the dependencies from `npm`.
-
-```
-npm install
-```
-
-Which will also compile the source files. Then run the tests with:
-
-```
-npm run tests
-```
-
-If you need to debug something, you can add a `debugger` line to the source, and then run `npm run tests debug`. Or, if you only want to run a specific test or tests, you can run `npm run tests -- --fgrep "match this string"` flag which will filter the tests being run.
-
-To keep the source rebuilding on every file change, you need to run an additional watching command:
-
-```
-npm run watch
-```
-
-
 ## Running Examples
 
 Check out the [Examples readme](./examples) to see how to get the examples running locally!
+
+
+## Running Tests
+
+To run the tests, you need to have the Slate repository cloned to your computer. After that, you need to `cd` into the directory where you cloned it, and install the dependencies with `yarn` and bootstrap the monorepo:
+
+```
+yarn install
+yarn run bootstrap
+```
+
+Then run the tests with:
+
+```
+yarn run test
+```
+
+To keep the source rebuilding on every file change, you need to run an additional watching command in a separate process:
+
+```
+yarn run watch
+```
+
+If you need to debug something, you can add a `debugger` line to the source, and then run `yarn run test debug`. 
+
+If you only want to run a specific test or tests, you can run `yarn run test --fgrep="slate-react rendering"` flag which will filter the tests being run by grepping for the string in each test.
+
+
+## Running Benchmarks
+
+To run the benchmarks, first make some changes to the source that you want to benchmark. Now that you're ready, you need to save a "baseline" for what the performance was before you made you change.
+
+To do that, stash your changes and save the benchmarks:
+
+```
+git stash
+yarn run benchmark:save
+```
+
+Then once the reference has been saved, unstash your changes and run the benchmarks to see a comparison:
+
+```
+git stash pop
+yarn run benchmark
+```
+
+There will be some subtle changes in iteration speed always, but the comparison reporter will highlight any changes that seem meaningful. You can run `benchmark` multiple times to ensure the speed up persists.
 
 
 ## Adding Browser Support
@@ -80,6 +107,18 @@ Slate aims to targeted all of the modern browsers, and eventually the modern mob
 
 [Here's a helpful page](https://github.com/Microsoft/vscode/wiki/IME-Test) detailing how to test various input scenarios on Windows, Mac and Linux.
 
-## Debugging Slate methods
+
+## Debugging Slate Methods
 
 Slate makes use of [debug](https://github.com/visionmedia/debug) to log information about various methods. You can [enable the logger in the browser](https://github.com/visionmedia/debug#browser-support) by setting `localStorage.debug = "*"` (to log methods on all modules) or to a single namespace (e.g. `slate:editor`). Look for `const debug = Debug('<namespace>')` to get the namespace of various modules.
+
+
+## Publishing Releases
+
+Since we use [Lerna](https://lernajs.io) to manage the Slate packages this is fairly easy, **but** you must make sure you are using `npm` to run the release script, because using `yarn` results in failures. So just run:
+
+```js
+npm run release 
+```
+
+And follow the prompts Lerna gives you.

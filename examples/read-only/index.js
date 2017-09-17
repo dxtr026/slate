@@ -1,5 +1,7 @@
 
-import { Editor, Plain } from '../..'
+import Plain from 'slate-plain-serializer'
+import { Editor } from 'slate-react'
+
 import React from 'react'
 
 /**
@@ -18,15 +20,15 @@ class ReadOnly extends React.Component {
 
   state = {
     state: Plain.deserialize('This is read-only text. You should not be able to edit it, which is useful for scenarios where you want to render via Slate, without giving the user editing permissions.')
-  };
+  }
 
   /**
    * On change.
    *
-   * @param {State} state
+   * @param {Change} change
    */
 
-  onChange = (state) => {
+  onChange = ({ state }) => {
     this.setState({ state })
   }
 

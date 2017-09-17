@@ -1,5 +1,7 @@
 
-import { Editor, Plain } from '../..'
+import Plain from 'slate-plain-serializer'
+import { Editor } from 'slate-react'
+
 import React from 'react'
 
 /**
@@ -18,15 +20,15 @@ class PlainText extends React.Component {
 
   state = {
     state: Plain.deserialize('This is editable plain text, just like a <textarea>!')
-  };
+  }
 
   /**
    * On change.
    *
-   * @param {State} state
+   * @param {Change} change
    */
 
-  onChange = (state) => {
+  onChange = ({ state }) => {
     this.setState({ state })
   }
 

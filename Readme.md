@@ -55,7 +55,7 @@ Here's how Slate compares to some of the existing editors out there:
 
 - [**Prosemirror**](http://prosemirror.net/) — Slate borrowed a few concepts from Prosemirror, namely its nested document tree, its use of "schemas", and its transform model for collaboration. And since then, Prosemirror has become slightly more like Slate by adopting a barebones "core" and plugin system. But some of the issues I ran into while using it were: that the API can be hard to understand, that it implements its own custom view layer, that the documentation isn't simple to use, and that the source is often very complex and hard to read for insights when you get stuck. (It's still in beta though and many of these things might change!)
 
-- [**Quill**](http://quilljs.com/) — I never used Quill directly, so my hesitations about it are solely from considering it in early stages—and it has changed since then. The issues I see with it are: that the concept of "toolbars" is too coupled with the editor itself, that the configuration is too coupled to HTML classes and DOM nodes, that the idea of "formats" and "toolbars" being linked is limiting, and generally that too much "core" logic is given special privileges and is hard to customize.
+- [**Quill**](http://quilljs.com/) — I never used Quill directly, so my hesitations about it are solely from considering it in early stages—and it has changed since then! The issues I saw with it were: that the concept of "toolbars" is too coupled with the editor itself, that the configuration is too coupled to HTML classes and DOM nodes, that the idea of "formats" and "toolbars" being linked is limiting, and generally that too much "core" logic is given special privileges and is hard to customize.
 
 - _For more potentially useless comparisons check out the [Comparisons](./docs/general/comparisons.md) document..._
 
@@ -68,17 +68,17 @@ Of course those are my own opinions, and if those libraries solve your needs, us
 
 Slate tries to solve the question of "[Why?](#why)" with a few principles:
 
-1. **First-class plugins.** The most important part of Slate is that plugins are first-class entities—the core editor logic is even implemented as its own plugin. That means you can _completely_ customize the editing experience, to build complex editors like Medium's or Canvas's without having to fight against the library's assumptions.
+1. **First-class plugins.** The most important part of Slate is that plugins are first-class entities—the core editor logic is even implemented as its own plugin. That means you can _completely_ customize the editing experience, to build complex editors like Medium's or Canvas's, without having to fight against the library's assumptions.
 
 2. **Schema-less core.** Slate's core logic doesn't assume anything about the schema of the data you'll be editing, which means that there are no assumptions baked into the library that'll trip you up when you need to go beyond basic usage.
 
 3. **Nested document model.** The document model used for Slate is a nested, recursive tree, just like the DOM itself. This means that creating complex components like tables or nested block quotes are possible for advanced use cases. But it's also easy to keep it simple by only using a single level of hierarchy.
 
-4. **Stateless and immutable data.** By using React and Immutable.js, the Slate editor is built in a stateless fashion using immutable data structures, which leads to much easier to reason about code, and a much easier time writing plugins.
+4. **Stateless views and immutable data.** By using React and Immutable.js, the Slate editor is built in a stateless fashion using immutable data structures, which leads to much easier to reason about code, and a much easier time writing plugins.
 
-5. **Intuitive transforms.** Slate's content is edited using "transforms", that are designed to be high level and extremely intuitive to use, so that writing plugins and custom functionality is as simple as possible.
+5. **Intuitive changes.** Slate's content is edited using "changes", that are designed to be high level and extremely intuitive to write and read, so that building custom functionality is as simple as possible.
 
-6. **Collaboration-ready data model.** The data model Slate uses—specifically how transforms are applied to the document—has been designed to allow for collaborative editing to be layered on top, so you won't need to rethink everything if you decide to make your editor collaborative. (More work is required on this!)
+6. **Collaboration-ready data model.** The data model Slate uses—specifically how changes are applied to the document—has been designed to allow for collaborative editing to be layered on top, so you won't need to rethink everything if you decide to make your editor collaborative.
 
 7. **Clear "core" boundaries.** With a plugin-first architecture, and a schema-less core, it becomes a lot clearer where the boundary is between "core" and "custom", which means that the core experience doesn't get bogged down in edge cases.
 
@@ -105,6 +105,7 @@ To get a sense for how you might use Slate, check out a few of the examples:
 - [**Tables**](./examples/tables) — showing how to nest blocks to render more advanced components.
 - [**Paste HTML**](./examples/paste-html) — showing how to use an HTML serializer to handle pasted HTML.
 - [**Code Highlighting**](./examples/code-highlighting) — showing how to use decorators to dynamically mark text.
+- [**See all the examples...**](./examples)
 
 If you have an idea for an example that shows a common use case, pull request it!
 
@@ -124,7 +125,7 @@ Slate encourages you to write small, reusable modules. Check out the public ones
 - [`slate-prism`](https://github.com/GitbookIO/slate-prism) highlights code blocks with [Prism.js](http://prismjs.com/)!
 - [`slate-soft-break`](https://github.com/ianstormtaylor/slate-soft-break) adds a soft break when `enter` is pressed.
 - [`slate-drop-or-paste-images`](https://github.com/ianstormtaylor/slate-drop-or-paste-images) lets users drop or paste images to insert them!
-- [**View all plugins on `npm`...**](https://www.npmjs.com/browse/keyword/slate)
+- [**See all the plugins on `npm`...**](https://www.npmjs.com/browse/keyword/slate)
 
 
 <br/>
