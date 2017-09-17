@@ -1,5 +1,7 @@
 
-import { Editor, Plain } from '../../..'
+import { Editor } from 'slate-react'
+import { Plain } from 'slate'
+
 import React from 'react'
 import initialState from './state.json'
 
@@ -19,15 +21,15 @@ class PlainText extends React.Component {
 
   state = {
     state: Plain.deserialize(initialState)
-  };
+  }
 
   /**
    * On change.
    *
-   * @param {State} state
+   * @param {Change} change
    */
 
-  onChange = (state) => {
+  onChange = ({ state }) => {
     this.setState({ state })
   }
 

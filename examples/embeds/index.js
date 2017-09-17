@@ -1,5 +1,7 @@
 
-import { Editor, Raw } from '../..'
+import { Editor } from 'slate-react'
+import { State } from 'slate'
+
 import React from 'react'
 import Video from './video'
 import initialState from './state.json'
@@ -31,16 +33,16 @@ class Embeds extends React.Component {
    */
 
   state = {
-    state: Raw.deserialize(initialState, { terse: true })
-  };
+    state: State.fromJSON(initialState)
+  }
 
   /**
    * On change.
    *
-   * @param {State} state
+   * @param {Change} change
    */
 
-  onChange = (state) => {
+  onChange = ({ state }) => {
     this.setState({ state })
   }
 

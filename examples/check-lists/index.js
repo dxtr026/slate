@@ -1,5 +1,7 @@
 
-import { Editor, Raw } from '../..'
+import { Editor } from 'slate-react'
+import { State } from 'slate'
+
 import React from 'react'
 import initialState from './state.json'
 
@@ -20,13 +22,7 @@ class CheckListItem extends React.Component {
   onChange = (e) => {
     const checked = e.target.checked
     const { editor, node } = this.props
-    const state = editor
-      .getState()
-      .transform()
-      .setNodeByKey(node.key, { data: { checked }})
-      .apply()
-
-    editor.onChange(state)
+    editor.change(c => c.setNodeByKey(node.key, { data: { checked }}))
   }
 
   /**
@@ -41,7 +37,7 @@ class CheckListItem extends React.Component {
     const checked = node.data.get('checked')
     return (
       <div
-        className="check-list-item"
+        className={`check-list-item ${checked ? 'checked' : ''}`}
         contentEditable={false}
         {...attributes}
       >
@@ -88,16 +84,16 @@ class CheckLists extends React.Component {
    */
 
   state = {
-    state: Raw.deserialize(initialState, { terse: true })
+    state: State.fromJSON(initialState)
   }
 
   /**
    * On change, save the new state.
    *
-   * @param {State} state
+   * @param {Change} change
    */
 
-  onChange = (state) => {
+  onChange = ({ state }) => {
     this.setState({ state })
   }
 
@@ -112,20 +108,20 @@ class CheckLists extends React.Component {
    *
    * @param {Event} e
    * @param {Object} data
-   * @param {State} state
+   * @param {Change} change
    * @return {State|Void}
    */
 
-  onKeyDown = (e, data, state) => {
+  onKeyDown = (e, data, change) => {
+    const { state } = change
+
     if (
       data.key == 'enter' &&
       state.startBlock.type == 'check-list-item'
     ) {
-      return state
-        .transform()
+      return change
         .splitBlock()
         .setBlock({ data: { checked: false }})
-        .apply()
     }
 
     if (
@@ -134,10 +130,8 @@ class CheckLists extends React.Component {
       state.startBlock.type == 'check-list-item' &&
       state.selection.startOffset == 0
     ) {
-      return state
-        .transform()
+      return change
         .setBlock('paragraph')
-        .apply()
     }
   }
 
